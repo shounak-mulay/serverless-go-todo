@@ -1,0 +1,29 @@
+Parameters:
+  BucketName:
+    Description: "Name of the S3 bucket"
+    Type: String
+    Default: "serverless-go-test-bucket"
+Resources:
+  ServerlessGoTestBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Ref BucketName
+  LogicalID:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket: !Ref BucketName # Required
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          Effect: Allow
+          Principal:
+            Service: "lambda.amazonaws.com"
+          Action:
+            - s3:GetObject
+            - s3:PutObject
+            - s3:DeleteObject
+          Resource: !Join
+            - ""
+            - - "arn:aws:s3:::"
+              - !Ref BucketName
+              - "/*"

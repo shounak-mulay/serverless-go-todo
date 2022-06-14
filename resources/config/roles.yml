@@ -1,0 +1,26 @@
+Resources:
+  LambdaServiceRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: lambda_${self:service}_${sls:stage}
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          Effect: Allow
+          Principal:
+            Service: lambda.amazonaws.com
+          Action:
+            - sts:AssumeRole
+      Policies:
+        - PolicyName: "lambda_${self:service}_${sls:stage}-Policy"
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              Effect: Allow
+              Action:
+                - lambda:*
+                - s3:*
+                - logs:*
+                - s3-object-lambda:*
+              Resource:
+                - "*"

@@ -1,0 +1,21 @@
+hello:
+  handler: bin/hello
+  role: LambdaServiceRole
+  events:
+    - httpApi:
+        path: /hello
+        method: get
+world:
+  handler: bin/world
+  role: LambdaServiceRole
+  events:
+    - httpApi:
+        path: /world
+        method: get
+list:
+  handler: bin/list-files
+  role: LambdaServiceRole
+  events:
+    - httpApi:
+        path: /list
+        method: get

@@ -21,7 +21,7 @@ service: serverless-go-todo
 
 # You can pin your service to only deploy with a specific Serverless version
 # Check out our docs for more details
-frameworkVersion: '3'
+frameworkVersion: "3"
 
 provider:
   name: aws
@@ -29,6 +29,9 @@ provider:
   region: ${env:REGION}
   versionFunctions: false
 
+resources:
+  - ${file("./resources/s3/datasources.yml")}
+  - ${file("./resources/config/roles.yml")}
 # you can overwrite defaults here
 #  stage: dev
 #  region: us-east-1
@@ -57,22 +60,10 @@ provider:
 
 package:
   patterns:
-    - '!./**'
+    - "!./**"
     - ./bin/**
 
-functions:
-  hello:
-    handler: bin/hello
-    events:
-      - httpApi:
-          path: /hello
-          method: get
-  world:
-    handler: bin/world
-    events:
-      - httpApi:
-          path: /world
-          method: get
+functions: ${file(./resources/lambdas/functions.yml)}
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events
 #    Check the event documentation for details
